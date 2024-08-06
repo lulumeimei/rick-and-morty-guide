@@ -1,7 +1,7 @@
 import React from "react";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
-import { Character } from "../types/character";
+import { Character } from "../domain/entities/character";
 
 interface DataTableProps {
   data: Character[];

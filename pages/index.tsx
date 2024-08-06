@@ -1,24 +1,23 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import DataTable from "../components/DataTable";
 import SearchBar from "../components/SearchBar";
-import { Character } from "../types/character";
+import { Character } from "../domain/entities/character";
 import { GridColDef } from "@mui/x-data-grid";
-import { fetchCharacters } from "../services/characterService";
-import { Origin } from "@/types/origin";
-import { Location } from "@/types/location";
+import { Origin } from "@/domain/entities/origin";
+import { Location } from "@/domain/entities/location";
 import PaginationButtons from "@/components/PaginationButtons";
 import { Container } from "@mui/material";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { useFetchCharactersUseCase } from "@/context/useCaseContext";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90, sortable: false },
   {
     field: "image",
     headerName: "Image",
-    width: 150, // this is the height of a row & image too
+    width: 150,
     renderCell: (params) => (
-      // <img src={params.value} alt={params.row.name} style={{ width: "100%" }} />
       <Image
         src={params.value}
         alt={params.row.name}
@@ -51,6 +50,7 @@ const columns: GridColDef[] = [
 ];
 
 function HomePage() {
+  const fetchCharactersUseCase = useFetchCharactersUseCase();
   const router = useRouter();
   const { query } = router;
 
@@ -67,7 +67,7 @@ function HomePage() {
   const fetchData = async (page: number, searchTerm: string) => {
     setLoading(true);
     try {
-      const response = await fetchCharacters(page, searchTerm);
+      const response = await fetchCharactersUseCase.execute(page, searchTerm);
       setData(response.results);
       setRowCount(response.info.count);
       setError(null);
@@ -79,7 +79,6 @@ function HomePage() {
     }
   };
 
-  // Effect for handling query changes
   useEffect(() => {
     const newPage = parseInt(query.page as string) || 0;
     const newSearchTerm = (query.search as string) || "";
@@ -89,8 +88,6 @@ function HomePage() {
   }, [query]);
 
   const handlePageChange = (event: ChangeEvent<unknown>, newPage: number) => {
-    // const currentPage = parseInt(query.page as string) || 0;
-    // Set the page query parameter
     router.replace({
       pathname: router.pathname,
       query: {
@@ -102,10 +99,7 @@ function HomePage() {
 
   const handleSearch = (term: string) => {
     const currentSearchTerm = router.query.search;
-    // Set the page query parameter if the search term has changed
     if (term !== currentSearchTerm) {
-      console.log(`Search term changed from:  to: ${term}`);
-      // Set the page query parameter
       router.replace({
         pathname: router.pathname,
         query: {
@@ -133,9 +127,9 @@ function HomePage() {
           loading={loading}
           page={page}
           pageSize={pageSize}
-          columns={columns} // Pass columns as a prop
+          columns={columns}
           onRowClick={(x: Character) => {
-            console.log(x);
+            router.push(`/contact/${x.id}`);
           }}
           rowHeight={150}
         />
