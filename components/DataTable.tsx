@@ -10,8 +10,8 @@ interface DataTableProps {
   page: number;
   pageSize: number;
   columns: GridColDef[];
-  onPageChange: (newPage: number) => void;
   onRowClick: (id: any) => void;
+  rowHeight?: number;
 }
 
 const DataTable: React.FC<DataTableProps> = ({
@@ -19,10 +19,10 @@ const DataTable: React.FC<DataTableProps> = ({
   rowCount,
   loading,
   page,
-  onPageChange,
   pageSize,
   columns,
   onRowClick,
+  rowHeight = 150,
 }) => {
   const rows: GridRowsProp = data.map((character, _) => ({
     ...character,
@@ -37,9 +37,10 @@ const DataTable: React.FC<DataTableProps> = ({
         pageSizeOptions={[pageSize]}
         rowCount={rowCount}
         paginationMode="server"
-        onPaginationModelChange={(params) => onPageChange(params.page)}
+        showCellVerticalBorder={true}
         loading={loading}
         disableColumnFilter
+        rowHeight={rowHeight}
         onRowClick={(x) => {
           onRowClick(x.row);
         }}
@@ -47,7 +48,8 @@ const DataTable: React.FC<DataTableProps> = ({
         disableRowSelectionOnClick={true}
         paginationModel={{ page, pageSize }}
         disableColumnMenu={true}
-        autoHeight // Automatically adjusts the height based on content
+        hideFooter={true}
+        autoHeight={true} // Automatically adjusts the height based on content
       />
     </Box>
   );
