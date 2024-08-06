@@ -1,3 +1,4 @@
+import SEO from "@/components/SEO";
 import { useRouter } from "next/router";
 
 const ContactDetail = () => {
@@ -6,6 +7,7 @@ const ContactDetail = () => {
 
   return (
     <div>
+      <SEO title={`Character ${id} - SleekFlow`} />
       <h1>Contact Detail</h1>
       <p>Contact ID: {id}</p>
     </div>

@@ -10,6 +10,7 @@ import { Container } from "@mui/material";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useFetchCharactersUseCase } from "@/context/useCaseContext";
+import SEO from "../components/SEO";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90, sortable: false },
@@ -134,6 +135,7 @@ function HomePage() {
 
   return (
     <Container>
+      <SEO />
       <SearchBar
         value={searchTerm}
         onChanged={handleSearch}
