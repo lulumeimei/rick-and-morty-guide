@@ -36,6 +36,9 @@ const WebsiteHeader = () => {
       setDrawerOpen(open);
     };
 
+  const isCharactersPath =
+    router.pathname === "/" || router.pathname.startsWith("/character");
+
   const drawer = (
     <Box
       sx={{ width: 250 }}
@@ -48,11 +51,10 @@ const WebsiteHeader = () => {
           <ListItemText
             primary="Characters"
             sx={{
-              fontWeight: router.pathname === "/" ? "bold" : "normal",
-              color:
-                router.pathname === "/"
-                  ? theme.palette.secondary.main
-                  : "inherit",
+              fontWeight: isCharactersPath ? "bold" : "normal",
+              color: isCharactersPath
+                ? theme.palette.secondary.main
+                : "inherit",
             }}
           />
         </ListItem>
@@ -109,11 +111,10 @@ const WebsiteHeader = () => {
               color="inherit"
               onClick={() => handleNavigation("/")}
               sx={{
-                fontWeight: router.pathname === "/" ? "bold" : "normal",
-                color:
-                  router.pathname === "/"
-                    ? theme.palette.secondary.main
-                    : "inherit",
+                fontWeight: isCharactersPath ? "bold" : "normal",
+                color: isCharactersPath
+                  ? theme.palette.secondary.main
+                  : "inherit",
               }}
             >
               Characters

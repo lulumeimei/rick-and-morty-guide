@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
+import React, { useState, useEffect, ChangeEvent, useCallback } from "react";
 import DataTable from "../components/DataTable";
 import SearchBar from "../components/SearchBar";
 import { Character } from "../domain/entities/character";
@@ -49,8 +49,36 @@ const columns: GridColDef[] = [
   },
 ];
 
-function HomePage() {
+const useFetchCharacters = (page: number, searchTerm: string) => {
   const fetchCharactersUseCase = useFetchCharactersUseCase();
+  const [data, setData] = useState<Character[]>([]);
+  const [rowCount, setRowCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetchCharactersUseCase.execute(page, searchTerm);
+        setData(response.results);
+        setRowCount(response.info.count);
+        setError(null);
+      } catch (err) {
+        setError("Failed to fetch data");
+        setData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [page, searchTerm, fetchCharactersUseCase]);
+
+  return { data, rowCount, loading, error };
+};
+
+function HomePage() {
   const router = useRouter();
   const { query } = router;
 
@@ -59,57 +87,48 @@ function HomePage() {
     (query.search as string) || ""
   );
   const [pageSize] = useState(20);
-  const [data, setData] = useState<Character[]>([]);
-  const [rowCount, setRowCount] = useState(0);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const fetchData = async (page: number, searchTerm: string) => {
-    setLoading(true);
-    try {
-      const response = await fetchCharactersUseCase.execute(page, searchTerm);
-      setData(response.results);
-      setRowCount(response.info.count);
-      setError(null);
-    } catch (err) {
-      // setError("Failed to fetch data");
-      setData([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { data, rowCount, loading, error } = useFetchCharacters(
+    page,
+    searchTerm
+  );
 
   useEffect(() => {
     const newPage = parseInt(query.page as string) || 0;
     const newSearchTerm = (query.search as string) || "";
     setPage(newPage);
     setSearchTerm(newSearchTerm);
-    fetchData(newPage, newSearchTerm);
   }, [query]);
 
-  const handlePageChange = (event: ChangeEvent<unknown>, newPage: number) => {
-    router.replace({
-      pathname: router.pathname,
-      query: {
-        ...router.query,
-        page: newPage,
-      },
-    });
-  };
-
-  const handleSearch = (term: string) => {
-    const currentSearchTerm = router.query.search;
-    if (term !== currentSearchTerm) {
+  const handlePageChange = useCallback(
+    (event: ChangeEvent<unknown>, newPage: number) => {
       router.replace({
         pathname: router.pathname,
         query: {
           ...router.query,
-          page: 0,
-          search: term ? term : null,
+          page: newPage,
         },
       });
-    }
-  };
+    },
+    [router]
+  );
+
+  const handleSearch = useCallback(
+    (term: string) => {
+      const currentSearchTerm = router.query.search;
+      if (term !== currentSearchTerm) {
+        router.replace({
+          pathname: router.pathname,
+          query: {
+            ...router.query,
+            page: 0,
+            search: term ? term : null,
+          },
+        });
+      }
+    },
+    [router]
+  );
 
   if (error) return <p>Error: {error}</p>;
 
@@ -129,13 +148,13 @@ function HomePage() {
           pageSize={pageSize}
           columns={columns}
           onRowClick={(x: Character) => {
-            router.push(`/contact/${x.id}`);
+            router.push(`/character/${x.id}`);
           }}
           rowHeight={150}
         />
       </Container>
       <PaginationButtons
-        currentPage={page == 0 ? 1 : page}
+        currentPage={page === 0 ? 1 : page}
         totalPages={Math.ceil(rowCount / pageSize)}
         onPageChange={handlePageChange}
       />
