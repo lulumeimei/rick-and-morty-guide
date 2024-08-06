@@ -1,7 +1,7 @@
 import React, { useState, useEffect, ChangeEvent, useCallback } from "react";
-import DataTable from "../components/DataTable";
-import SearchBar from "../components/SearchBar";
-import { Character } from "../domain/entities/character";
+import DataTable from "../../components/DataTable";
+import SearchBar from "../../components/SearchBar";
+import { Character } from "../../domain/entities/character";
 import { GridColDef } from "@mui/x-data-grid";
 import { Origin } from "@/domain/entities/origin";
 import { Location } from "@/domain/entities/location";
@@ -10,7 +10,7 @@ import { Container } from "@mui/material";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { useFetchCharactersUseCase } from "@/context/useCaseContext";
-import SEO from "../components/SEO";
+import SEO from "../../components/SEO";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90, sortable: false },

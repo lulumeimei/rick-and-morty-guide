@@ -14,10 +14,10 @@ const SEO: React.FC<SEOProps> = ({ title, description, keywords, author }) => {
 
   const getDefaultTitle = () => {
     switch (router.pathname) {
-      case "/":
-        return "Home - Rick and Morty";
+      //   case "/":
+      //     return "Home - Rick and Morty";
       case "/character":
-        return "Character Detail - Rick and Morty";
+        return "Character Listing - Rick and Morty";
       case "/locations":
         return "Locations - Rick and Morty";
       case "/episodes":
@@ -32,10 +32,10 @@ const SEO: React.FC<SEOProps> = ({ title, description, keywords, author }) => {
 
   const getDefaultDescription = () => {
     switch (router.pathname) {
-      case "/":
-        return "Welcome to Rick and Morty. Explore our content.";
+      //   case "/":
+      //     return "Welcome to Rick and Morty. Explore our content.";
       case "/character":
-        return "Detailed information about the character.";
+        return "Browse through our character database.";
       case "/locations":
         return "Discover various locations in our database.";
       case "/episodes":
