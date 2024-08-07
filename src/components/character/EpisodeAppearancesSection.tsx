@@ -18,9 +18,9 @@ const columns: GridColDef[] = [
 const EpisodeAppearancesSection: React.FC<EpisodeAppearancesSectionProps> = ({
   episodes,
 }) => {
-  //   const handleEpisodeClick = (url: string) => {
-  //     window.open(url, "_blank");
-  //   };
+  const handleEpisodeClick = (url: string) => {
+    window.open(url, "_blank");
+  };
 
   return (
     <section id="episode-appearances">
@@ -28,19 +28,6 @@ const EpisodeAppearancesSection: React.FC<EpisodeAppearancesSectionProps> = ({
         <Typography variant="h4" gutterBottom>
           Episode Appearances
         </Typography>
-        {/* <List>
-          {episodes.map((ep, index) => (
-            <ListItem key={index}>
-              <ListItemButton onClick={() => handleEpisodeClick(ep.url)}>
-                <ListItemText
-                  primary={`Episode ${index + 1}`}
-                  secondary={ep.air_date}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List> */}
-
         <Container>
           <DataTable
             data={episodes}
@@ -51,6 +38,7 @@ const EpisodeAppearancesSection: React.FC<EpisodeAppearancesSectionProps> = ({
             columns={columns}
             onRowClick={(x: Episode) => {
               console.log(x);
+              handleEpisodeClick(x.url);
               //   router.push(`/character/${x.id}`);
             }}
             rowHeight={60}
