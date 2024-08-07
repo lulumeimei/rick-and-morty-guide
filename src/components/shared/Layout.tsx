@@ -2,7 +2,6 @@
 import * as React from "react";
 import { Box, Container } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
-
 import WebsiteHeader from "./WebsiteHeader";
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {

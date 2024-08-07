@@ -1,6 +1,6 @@
 // context/useCaseContext.tsx
 import React, { createContext, useContext } from "react";
-import { FetchCharactersUseCase } from "@/domain/useCases/fetchCharactersUseCase";
+import { FetchCharactersUseCase } from "@/src/domain/useCases/fetchCharactersUseCase";
 
 const UseCaseContext = createContext<FetchCharactersUseCase | null>(null);
 

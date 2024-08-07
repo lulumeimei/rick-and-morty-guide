@@ -2,7 +2,7 @@
 import * as React from "react";
 import { Box, Container, Typography, Button } from "@mui/material";
 import { useRouter } from "next/router";
-import Layout from "../components/Layout";
+import Layout from "../src/components/shared/Layout";
 
 const Custom404: React.FC = () => {
   const router = useRouter();

@@ -1,10 +1,9 @@
 import React from "react";
 import { DataGrid, GridColDef, GridRowsProp } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
-import { Character } from "../domain/entities/character";
 
 interface DataTableProps {
-  data: Character[];
+  data: any[];
   rowCount: number;
   loading: boolean;
   page: number;
@@ -24,9 +23,7 @@ const DataTable: React.FC<DataTableProps> = ({
   onRowClick,
   rowHeight = 150,
 }) => {
-  const rows: GridRowsProp = data.map((character, _) => ({
-    ...character,
-  }));
+  const rows: GridRowsProp = [...data];
 
   return (
     <Box width="100%">
@@ -37,7 +34,7 @@ const DataTable: React.FC<DataTableProps> = ({
         pageSizeOptions={[pageSize]}
         rowCount={rowCount}
         paginationMode="server"
-        showCellVerticalBorder={true}
+        showCellVerticalBorder={false}
         loading={loading}
         disableColumnFilter
         rowHeight={rowHeight}

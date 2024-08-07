@@ -1,5 +1,5 @@
 // domain/useCases/fetchCharactersUseCase.ts
-import { ICharacterRepository } from "@/data/repositories/characterRepository";
+import { ICharacterRepository } from "@/src/data/repositories/character/characterRepository";
 import { Character } from "../entities/character";
 
 export class FetchCharactersUseCase {

@@ -5,11 +5,11 @@ import { ThemeProvider } from "@mui/material/styles";
 import type { AppProps } from "next/app";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "../theme";
-import Layout from "@/components/Layout";
-import { UseCaseProvider } from "@/context/useCaseContext";
-import { FetchCharactersUseCase } from "@/domain/useCases/fetchCharactersUseCase";
-import { CharacterRepositoryImpl } from "@/data/repositories/characterRepositoryImpl";
-import { CharacterApiDataSource } from "@/data/dataSources/CharacterApiDataSource";
+import Layout from "@/src/components/shared/Layout";
+import { FetchCharactersUseCase } from "@/src/domain/useCases/fetchCharactersUseCase";
+import { CharacterApiDataSource } from "@/src/data/dataSources/character/CharacterApiDataSource";
+import { UseCaseProvider } from "@/src/context/useCaseContext";
+import { CharacterRepositoryImpl } from "@/src/data/repositories/character/characterRepositoryImpl";
 
 export default function App({ Component, pageProps }: AppProps) {
   const characterDataSource = new CharacterApiDataSource();

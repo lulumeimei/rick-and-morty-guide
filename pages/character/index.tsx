@@ -1,16 +1,16 @@
 import React, { useState, useEffect, ChangeEvent, useCallback } from "react";
-import DataTable from "../../components/DataTable";
-import SearchBar from "../../components/SearchBar";
-import { Character } from "../../domain/entities/character";
+import DataTable from "../../src/components/shared/DataTable";
+import SearchBar from "../../src/components/shared/SearchBar";
+import { Character } from "../../src/domain/entities/character";
 import { GridColDef } from "@mui/x-data-grid";
-import { Origin } from "@/domain/entities/origin";
-import { Location } from "@/domain/entities/location";
-import PaginationButtons from "@/components/PaginationButtons";
+import { Origin } from "@/src/domain/entities/origin";
+import { Location } from "@/src/domain/entities/location";
 import { Container } from "@mui/material";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import { useFetchCharactersUseCase } from "@/context/useCaseContext";
-import SEO from "../../components/SEO";
+import SEO from "../../src/components/shared/SEO";
+import { useFetchCharactersUseCase } from "@/src/context/useCaseContext";
+import PaginationButtons from "@/src/components/shared/PaginationButtons";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90, sortable: false },
@@ -150,6 +150,7 @@ function HomePage() {
           pageSize={pageSize}
           columns={columns}
           onRowClick={(x: Character) => {
+            console.log(x);
             router.push(`/character/${x.id}`);
           }}
           rowHeight={150}
